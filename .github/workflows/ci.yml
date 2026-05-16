@@ -1,0 +1,28 @@
+name: 20-glucovision-federated-learning CI/CD
+
+on:
+  push:
+    paths:
+      - '20-glucovision-federated-learning/**'
+      - '.github/workflows/20-glucovision-federated-learning-ci.yml'
+  pull_request:
+    paths:
+      - '20-glucovision-federated-learning/**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and Push (Dry Run)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: glucovision/20-glucovision-federated-learning:test
